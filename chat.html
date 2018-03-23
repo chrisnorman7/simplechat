@@ -14,6 +14,7 @@
 <p><label>Message: <input type="text" autocomplete="off" id="input"></label></p>
 <p><input type="submit" value="Send"></p>
 </form>
+<audio id="notification" preload src="/notify.mp3">
 
 <script>
 
@@ -23,6 +24,7 @@ command_match = /[/]([^ $]+)[ ]?([^$]+)?$/
 
 functions = {
     message: (obj) => {
+        document.getElementById("notification").play()
         let name = obj.args[0]
         let text = obj.args[1]
         write_message(`${name}: ${text}`)

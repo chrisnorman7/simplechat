@@ -10,6 +10,9 @@ from autobahn.twisted.websocket import (
     WebSocketServerProtocol, WebSocketServerFactory, listenWS
 )
 
+with open('notify.mp3', 'rb') as f:
+    notify_data = f.read()
+
 parser = ArgumentParser()
 
 parser.add_argument(
@@ -195,6 +198,11 @@ def help(con, command):
 app = Klein()  # We use this to serve HTML.
 environment = Environment()  # We use this for templating.
 index_kwargs = {}
+
+
+@app.route('/notify.mp3')
+def notify_mp3(request):
+    return notify_data
 
 
 @app.route('/')
