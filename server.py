@@ -79,7 +79,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
         self.host = peer.host
         self.port = peer.port
         self.log_message('Conected.')
-        self.message('Welcome to the chatroom.')
+        self.message('Welcome.')
         self.message(
             'Type /name followed by your desired name to set your name.',
             name='Suggestion'
@@ -91,6 +91,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
         if self in connections:
             connections.remove(self)
         if self.name in names:
+            send_message(f'{self.name} has left the server.')
             names.remove(self.name)
 
     def onMessage(self, payload, is_binary):
@@ -126,7 +127,7 @@ def name(con, name):
             if old:
                 msg = f'{old} is now known as {con.name}.'
             else:
-                msg = f'{con.name} has joined the chatroom.'
+                msg = f'{con.name} has joined the server.'
             send_message(msg)
 
 
