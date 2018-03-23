@@ -167,6 +167,14 @@ def who(con):
     con.message('\n'.join(results))
 
 
+@command
+@no_arguments
+def disconnect(con):
+    """Disconnect from the server."""
+    con.message('Goodbye.')
+    con.transport.loseConnection()
+
+
 app = Klein()  # We use this to serve HTML.
 environment = Environment()  # We use this for templating.
 index_kwargs = {}
