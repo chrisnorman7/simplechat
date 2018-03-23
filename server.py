@@ -142,6 +142,21 @@ def message(con, text):
         send_message(text, name=con.name)
 
 
+@command
+def who(con, extra):
+    """Show who's connected."""
+    if extra:
+        return con.message('This command takes no arguments.')
+    results = ['Who listing:']
+    for connection in connections:
+        if connection.name is None:
+            continue
+        results.append(
+            f'{connection.name} from {connection.host}:{connection.port}'
+        )
+    con.message('\n'.join(results))
+
+
 app = Klein()  # We use this to serve HTML.
 environment = Environment()  # We use this for templating.
 index_kwargs = {}
