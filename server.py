@@ -44,6 +44,17 @@ def command(func):
     return func
 
 
+def no_arguments(func):
+    """A decorator that says this command takes no arguments."""
+    def inner(con, *args, **kwargs):
+        if any(args) or any(kwargs):
+            con.message('This command takes no arguments.')
+        else:
+            func(con)
+    inner.__name__ = func.__name__
+    return inner
+
+
 def send_message(message, name=None):
     """Send a message to everyone connected."""
     for connection in connections:
@@ -143,10 +154,9 @@ def message(con, text):
 
 
 @command
-def who(con, extra):
+@no_arguments
+def who(con):
     """Show who's connected."""
-    if extra:
-        return con.message('This command takes no arguments.')
     results = ['Who listing:']
     for connection in connections:
         if connection.name is None:
