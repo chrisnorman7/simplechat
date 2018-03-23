@@ -52,6 +52,7 @@ def no_arguments(func):
         else:
             func(con)
     inner.__name__ = func.__name__
+    inner.__doc__ = func.__doc__
     return inner
 
 
@@ -121,7 +122,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
 
 @command
 def name(con, name):
-    """Set con.name."""
+    """Set your name."""
     if not name:
         con.message('You must give a name.')
     elif name in names:
@@ -144,7 +145,7 @@ def name(con, name):
 
 @command
 def message(con, text):
-    """Connection con has sent a message."""
+    """Send a message to everyone in the chatroom."""
     if con.name is None:
         con.message('You must set your name before you can transmit.')
     elif not text:
@@ -173,6 +174,22 @@ def disconnect(con):
     """Disconnect from the server."""
     con.message('Goodbye.')
     con.transport.loseConnection()
+
+
+@command
+def help(con, command):
+    """Get help on a command or list all commands."""
+    if command is None:
+        results = ['Commands:']
+        for name, func in commands.items():
+            results.append(name)
+            results.append(func.__doc__)
+    elif command in commands:
+        results = [f'Help on {command}:']
+        results.append(commands[command].__doc__)
+    else:
+        results = ['No such command.']
+    con.message('\n'.join(results))
 
 
 app = Klein()  # We use this to serve HTML.
