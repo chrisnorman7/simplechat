@@ -1,9 +1,10 @@
 """A simple chat server using Twisted and Autobahn."""
 
+import os
 from argparse import ArgumentParser
 from socket import getfqdn
 from json import loads, dumps
-from jinja2 import Environment
+from jinja2 import Environment, FileSystemLoader
 from twisted.python import log
 from klein import Klein
 from autobahn.twisted.websocket import (
@@ -196,7 +197,10 @@ def help(con, command):
 
 
 app = Klein()  # We use this to serve HTML.
-environment = Environment()  # We use this for templating.
+# We need a loader that can load templates from the filesystem with the
+# environment.get_template method.
+loader = FileSystemLoader(os.curdir)
+environment = Environment(loader=loader)  # We use this for templating.
 index_kwargs = {}
 
 
@@ -207,8 +211,7 @@ def notify_mp3(request):
 
 @app.route('/')
 def index(request):
-    with open('chat.html', 'r') as f:
-        return environment.from_string(f.read()).render(**index_kwargs)
+    return environment.get_template('chat.html').render(**index_kwargs)
 
 
 if __name__ == '__main__':
