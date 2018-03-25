@@ -14,17 +14,19 @@
 <p><label>Message: <input type="text" autocomplete="off" id="input"></label></p>
 <p><input type="submit" value="Send"></p>
 </form>
-<audio id="notification" preload src="/notify.mp3">
+<audio id="notification" preload="auto" src="/notify.mp3">
 
 <script>
 
 input = document.getElementById("input")
 output = document.getElementById("output")
 command_match = /[/]([^ $]+)[ ]?([^$]+)?$/
+notification = document.getElementById("notification")
 
 functions = {
     message: (obj) => {
-        document.getElementById("notification").play()
+        notification.currentTime = 0
+        notification.play()
         let name = obj.args[0]
         let text = obj.args[1]
         write_message(`${name}: ${text}`)
@@ -32,6 +34,8 @@ functions = {
 }
 
 document.forms[0].onsubmit = (e) => {
+    notification.currentTime = notification.duration - 0.1
+    notification.play()
     e.preventDefault()
     text = input.value
     input.value = ""
