@@ -73,6 +73,7 @@ function send(command, args, kwargs) {
 socket = new WebSocket('ws://{{ hostname }}:{{ websocket_port }}')
 
 socket.onopen = () => {
+    input.focus()
     write_message("*** Connected ***")
 }
 
