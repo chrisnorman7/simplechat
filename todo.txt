@@ -1,0 +1,44 @@
+This file contains some suggestions for improvements that could be tried by anyone playing with the code.
+
+* Include emoji list
+Convert strings like %smile% or %cat% to entries from a preset list of emojis.
+
+* Pretty-printing
+The default chat.html is pretty unappealing. Nothing a bit of CSS wouldn't fix.
+
+* Autoreconnecting
+Make the websocket reconnect automatically if it disconnects.
+* Remember name
+Screennames could be stored in a cookie and sent automatically when the socket connects.
+
+* Message colouring
+Have a default colour with a command to change the foreground and background colour with a command like:
+/colour white black
+This should set the users text colour to white and background colour to black.
+
+* Support links
+This could either be in the form of a command:
+/link https://www.facebook.com Facebook
+Which would show a link that could be clicked.
+Alternatively you could modify the message function in the functions list in chat.js to automatically recognise links and make them into proper anchor tags.
+
+* Add SSL support
+Obviously this would secure the chatroom against the prying eyes of anyone not connected to the chatroom.
+
+* Only send messages to users with names
+This would mean people could not silently connect and read incoming messages without anyone knowing.
+
+* Support @mentions
+This could allow you to send private messages or let users hear a different notificationsound if their name were @mentioned.
+
+* Support hash tags
+This could be used to let users ignore specific hash tags.
+
+* Support persistant users
+Allow users to login so their name and other information could be stored. This would make things less annoying if the websocket connection gets dropped.
+
+* Multiroom support
+Give users the ability to create rooms like on Teamtalk or IRC. As a bonus they should be deleted when they are emptied.
+
+* Different command prefix
+Users could be given the opotunity to specify their own command prefix (like space for example) so that commands are easier to type from mobile devices.
