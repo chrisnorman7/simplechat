@@ -227,7 +227,9 @@ def disconnect(con):
 
 
 # This command overrides Python's help builtin and will cause confusion if
-# examining code from the interactive python shell..
+# examining code from the interactive python shell. To get around this problem
+# you could make the command decorator accept an optional name argument so you
+# could name functions whatever you like without compromising usability.
 @command
 def help(con, command):
     """Get help on a command or list all commands."""
