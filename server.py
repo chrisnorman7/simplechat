@@ -5,14 +5,12 @@ from argparse import ArgumentParser
 from socket import getfqdn
 from json import loads, dumps
 from jinja2 import Environment, FileSystemLoader
-from twisted.python import log
+from twisted.python import log  # Used by Klein (annoyingly).
+from twisted.web.static import File
 from klein import Klein
 from autobahn.twisted.websocket import (
     WebSocketServerProtocol, WebSocketServerFactory, listenWS
 )
-
-with open('notify.mp3', 'rb') as f:
-    notify_data = f.read()
 
 parser = ArgumentParser()
 
@@ -186,10 +184,10 @@ def help(con, command):
     if command is None:
         results = ['Commands:']
         for name, func in commands.items():
-            results.append(name)
+            results.append(f'/{name}')
             results.append(func.__doc__)
     elif command in commands:
-        results = [f'Help on {command}:']
+        results = [f'Help on /{command}:']
         results.append(commands[command].__doc__)
     else:
         results = ['No such command.']
@@ -206,7 +204,7 @@ index_kwargs = {}
 
 @app.route('/notify.mp3')
 def notify_mp3(request):
-    return notify_data
+    return File('notify.mp3')
 
 
 @app.route('/')
