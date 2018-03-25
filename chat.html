@@ -56,6 +56,7 @@ function write_message(text) {
     p = document.createElement("p")
     p.innerText = text
     output.appendChild(p)
+    window.scrollTo(0,document.body.scrollHeight)
 }
 
 function send(command, args, kwargs) {
