@@ -165,7 +165,6 @@ class WebSocketProtocol(WebSocketServerProtocol):
 # The help command treats docstrings from the command functions as descriptions
 # so they should be formatted as such.
 
-
 @command
 def name(con, name):
     """Set your name."""
@@ -227,6 +226,8 @@ def disconnect(con):
     con.disconnect('Goodbye.')
 
 
+# This command overrides Python's help builtin and will cause confusion if
+# examining code from the interactive python shell..
 @command
 def help(con, command):
     """Get help on a command or list all commands."""
