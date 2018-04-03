@@ -108,7 +108,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
         printed once."""
         return self.message('\n'.join(lines), name=name)
 
-    def onOpen(self):
+    def connectionMade(self):
         """The socket is connected. Setup some initial values and add this
         socket to the connections list."""
         connections.append(self)
