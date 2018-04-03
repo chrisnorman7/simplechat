@@ -111,6 +111,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
     def connectionMade(self):
         """The socket is connected. Setup some initial values and add this
         socket to the connections list."""
+        super().connectionMade()
         connections.append(self)
         self.name = None  # Don't let them transmit unless they've set a name.
         peer = self.transport.getPeer()  # Connection information.
@@ -128,6 +129,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
         and remove this connection. Not overriding
         WebSocketServerProtocol.onClose because we aren't doing anything
         specific to websockets."""
+        super().connectionLost(reason)
         self.log_message(reason.getErrorMessage())
         # It is highly unlikely that this socket isn't in the list, but best to
         # check because some of the things that haunt the internet don't do
