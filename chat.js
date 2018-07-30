@@ -71,7 +71,7 @@ socket.onopen = () => {
     input.focus()
     write_message("*** Connected ***")
     let name = Cookies.get("name")
-    if (name !== null) {
+    if (name !== undefined) {
         send("name", [name])
     }
 }
