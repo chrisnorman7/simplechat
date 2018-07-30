@@ -182,6 +182,9 @@ def name(con, name):
             con.message('Name unchanged.')
         else:  # It is different.
             con.name = name  # Set the new name.
+            # Get the client to store their name in a cookie to send next time
+            # they connect.
+            con.send('name', name)
             names.add(name)  # Add it to the set of names.
             # In the below lines we use a variable to store the message. This
             # means if the API ever changes we only need to change the line

@@ -1,3 +1,7 @@
+/* global Cookies */
+
+const cookies_options = {expires: 365}
+
 let input = document.getElementById("input")
 let output = document.getElementById("output")
 let command_match = /[/]([^ $]+)[ ]?([^$]+)?$/
@@ -13,12 +17,15 @@ function play_notification() {
     }
 }
 
-let functions = {
-    message: (obj) => {
+const functions = {
+    message: obj => {
         play_notification()
         let name = obj.args[0]
         let text = obj.args[1]
         write_message(`${name}: ${text}`)
+    },
+    name: obj => {
+        Cookies.set("name", obj.args[0], cookies_options)
     }
 }
 
@@ -63,6 +70,10 @@ let socket = new WebSocket("ws://{{ hostname }}:{{ websocket_port }}")
 socket.onopen = () => {
     input.focus()
     write_message("*** Connected ***")
+    let name = Cookies.get("name")
+    if (name !== null) {
+        send("name", [name])
+    }
 }
 
 socket.onclose = () => {
