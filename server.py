@@ -4,6 +4,7 @@ import os
 from argparse import ArgumentParser
 from inspect import getdoc
 from json import loads, dumps
+from random import randint
 from socket import getfqdn
 from time import ctime
 from jinja2 import Environment, FileSystemLoader
@@ -262,6 +263,25 @@ def help(con, command):
 def time(con, command):
     """Show the current time."""
     con.message(f'The current time is {ctime()}.', name='Clock')
+
+
+@command
+def guessthenumber(con, guess):
+    """Guess a number between 1 and 10."""
+    name = 'Guess The Number'
+    if guess is None:
+        return con.message('Usage: /guessthenumber &lt;guess&gt;')
+    try:
+        guess = int(guess)
+    except ValueError:
+        return con.message('Invalid guess: %r.' % guess, name=name)
+    actual = randint(1, 10)
+    if guess == actual:
+        send_message(
+            f'{con.name} guessed number {actual} correctly.', name=name
+        )
+    else:
+        con.message(f'Sorry, the number was {actual}.')
 
 
 # Web stuff. This is separate to the socket stuff and just renders the HTML,
