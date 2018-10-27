@@ -3,8 +3,9 @@
 import os
 from argparse import ArgumentParser
 from inspect import getdoc
-from socket import getfqdn
 from json import loads, dumps
+from socket import getfqdn
+from time import ctime
 from jinja2 import Environment, FileSystemLoader
 from markdown import Markdown
 from twisted.python import log  # Used by Klein (annoyingly).
@@ -255,6 +256,12 @@ def help(con, command):
     else:  # They want to know about a command that doesn't exist.
         results = ['No such command.']
     con.message_lines(results)
+
+
+@command
+def time(con, command):
+    """Show the current time."""
+    con.message(f'The current time is {ctime()}.', name='Clock')
 
 
 # Web stuff. This is separate to the socket stuff and just renders the HTML,
