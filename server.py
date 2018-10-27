@@ -244,13 +244,14 @@ def disconnect(con):
 def help(con, command):
     """Get help on a command or list all commands."""
     if command is None:  # Show them all.
-        results = ['Commands:']
+        results = ['<h4>Commands</h4>', '<dl>']
         for name, func in commands.items():
-            results.append(f'/{name}')
-            results.append(getdoc(func))
+            results.append(f'<dt>/{name}</dt>')
+            results.append('<dd>' + getdoc(func) + '</dd>')
+        results.append('</dl>')
     elif command in commands:  # They want to know about a specific command.
-        results = [f'Help on /{command}:']
-        results.append(getdoc(commands[command]))
+        results = [f'<h4>Help on /{command}</h4>']
+        results.append('<p>' + getdoc(commands[command]) + '</p>')
     else:  # They want to know about a command that doesn't exist.
         results = ['No such command.']
     con.message_lines(results)
