@@ -6,6 +6,7 @@ from inspect import getdoc
 from socket import getfqdn
 from json import loads, dumps
 from jinja2 import Environment, FileSystemLoader
+from markdown import markdown
 from twisted.python import log  # Used by Klein (annoyingly).
 from twisted.web.static import File
 from klein import Klein
@@ -206,6 +207,8 @@ def message(con, text):
     elif not text:  # Blank message.
         con.message('Messages cannot be blank.')
     else:  # Good to go.
+        # Let's convert the text to HTML using Markdown.
+        text = markdown(text)
         send_message(text, name=con.name)
 
 

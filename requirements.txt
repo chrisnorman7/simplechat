@@ -2,3 +2,4 @@ twisted
 autobahn
 jinja2
 klein
+markdown

@@ -22,7 +22,7 @@ const functions = {
         play_notification()
         let name = obj.args[0]
         let text = obj.args[1]
-        write_message(`${name}: ${text}`)
+        write_message(name, text)
     },
     name: obj => {
         Cookies.set("name", obj.args[0], cookies_options)
@@ -47,9 +47,15 @@ document.forms[0].onsubmit = (e) => {
     }
 }
 
-function write_message(text) {
+function write_message(name, text) {
+    if (!name) {
+        name = "<local>"
+    }
+    let h = document.createElement("h3")
+    h.innerText = name
+    output.appendChild(h)
     let p = document.createElement("p")
-    p.innerText = text
+    p.innerHTML = text
     output.appendChild(p)
     window.scrollTo(0,document.body.scrollHeight)
 }
@@ -69,7 +75,7 @@ let socket = new WebSocket("ws://{{ hostname }}:{{ websocket_port }}")
 
 socket.onopen = () => {
     input.focus()
-    write_message("*** Connected ***")
+    write_message(null, "Connected")
     let name = Cookies.get("name")
     if (name !== undefined) {
         send("name", [name])
@@ -77,7 +83,7 @@ socket.onopen = () => {
 }
 
 socket.onclose = () => {
-    write_message("*** Disconnected (press refresh) ***")
+    write_message(null, "Disconnected (press refresh)")
 }
 
 socket.onmessage = (e) => {
@@ -86,6 +92,6 @@ socket.onmessage = (e) => {
     if (func !== undefined) {
         func(obj)
     } else {
-        write_message(`Unrecognised command: ${e.data}.`)
+        write_message(null, `Unrecognised command: ${e.data}.`)
     }
 }
