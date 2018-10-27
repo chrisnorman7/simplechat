@@ -6,7 +6,7 @@ from inspect import getdoc
 from socket import getfqdn
 from json import loads, dumps
 from jinja2 import Environment, FileSystemLoader
-from markdown import markdown
+from markdown import Markdown
 from twisted.python import log  # Used by Klein (annoyingly).
 from twisted.web.static import File
 from klein import Klein
@@ -14,6 +14,7 @@ from autobahn.twisted.websocket import (
     WebSocketServerProtocol, WebSocketServerFactory, listenWS
 )
 
+md = Markdown()
 parser = ArgumentParser()  # So we can add command line arguments.
 
 parser.add_argument(
@@ -208,7 +209,8 @@ def message(con, text):
         con.message('Messages cannot be blank.')
     else:  # Good to go.
         # Let's convert the text to HTML using Markdown.
-        text = markdown(text)
+        text = md.convert(text)
+        text = text.replace('<a href="', '<a target="_new" href="')
         send_message(text, name=con.name)
 
 
