@@ -4,7 +4,7 @@ const cookies_options = {expires: 365}
 
 let input = document.getElementById("input")
 let output = document.getElementById("output")
-let command_match = /[/]([^ $]+)[ ]?([^$]+)?$/
+let command_match = /^[/]([^ $]+)[ ]?([^$]+)?$/
 let notification = document.getElementById("notification")
 let last_notification = 0
 
