@@ -155,7 +155,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
         # The below line assumes the message is in the right format. If it's
         # not they will be disconnected by the resulting error.
         name, args, kwargs = loads(payload)
-        # Let's find they command they're trying to call.
+        # Let's find the command they're trying to call.
         func = commands.get(name)
         if func is None:  # Command not found.
             return self.message(f'Unsupported command: {name}.')
